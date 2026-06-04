@@ -45,6 +45,8 @@ graph TD
 4. **Reason:** The Vision LLM receives the annotated image and user prompt, and decides which numbered element ID to interact with.
 5. **Act:** The controller translates the element ID back to `(x, y)` coordinates and executes the click/type action.
 
+![Annotated Screenshot Demo](screenshots/audit.png)
+
 ---
 
 ## ⚡ How To Use (1-Click Quickstart)
