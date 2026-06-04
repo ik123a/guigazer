@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  guigazer:
+    build: .
+    ports:
+      - "8001:8001"
+    environment:
+      - NVIDIA_API_KEY=${NVIDIA_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./screenshots:/app/screenshots
+      - ./detector/checkpoints:/app/detector/checkpoints
