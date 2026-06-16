@@ -1,3 +1,14 @@
+
+function setHTML(element, htmlString) {
+  if (!element) return;
+  element.textContent = '';
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, 'text/html');
+  while (doc.body.firstChild) {
+    element.appendChild(doc.body.firstChild);
+  }
+}
+
 /**
  * GuiGazer — WebSocket Dashboard Client
  * ======================================
@@ -150,7 +161,7 @@
   function resetLog() {
     stepNum = 0;
     stepCounter.textContent = "Step 0";
-    actionLog.innerHTML = "";
+    setHTML(actionLog, "");
     logEmpty.style.display = "";
     actionLog.appendChild(logEmpty);
   }
@@ -170,14 +181,14 @@
 
     const entry = document.createElement("div");
     entry.className = "action-entry";
-    entry.innerHTML = `
+    setHTML(entry, `
       <div class="step-num">${step}</div>
       <div class="action-body">
         <div class="action-meta">
           <span class="action-badge ${badgeClass}">${escHtml(action)}</span>
           <span class="action-element">${escHtml(element)}</span>
         </div>
-        ${reason ? `<div class="action-reason">${escHtml(reason)}</div>` : ""}
+        ${reason ? `);<div class="action-reason">${escHtml(reason)}</div>` : ""}
       </div>`;
     actionLog.appendChild(entry);
     scrollLog();
@@ -187,7 +198,7 @@
     hideEmpty();
     const el = document.createElement("div");
     el.className = "msg-complete";
-    el.innerHTML = `<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"/></svg> ${escHtml(message)}`;
+    setHTML(el, `<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"/></svg> ${escHtml(message)}`);
     actionLog.appendChild(el);
     scrollLog();
   }
@@ -196,7 +207,7 @@
     hideEmpty();
     const el = document.createElement("div");
     el.className = "msg-error";
-    el.innerHTML = `<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg> ${escHtml(message)}`;
+    setHTML(el, `<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg> ${escHtml(message)}`);
     actionLog.appendChild(el);
     scrollLog();
   }
