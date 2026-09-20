@@ -15,3 +15,26 @@ Thumbs.db
 runs/
 datasets/
 screenshots/
+
+# Auto-added safety ignores for large files and temp data
+.next/
+build/
+.gradle/
+local.properties
+*.iml
+.idea/libraries/
+.idea/caches/
+*.h5
+*.bin
+*.gguf
+*.zst
+*.tar.gz
+*.iso
+*.vmdk
+*.dll
+*.exe
+*.zip
+*.7z
+*.rar
+.pytest_cache/
+.turbo/
