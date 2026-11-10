@@ -11,6 +11,7 @@ any browser and optionally includes the original screenshot as a base64 image.
 from __future__ import annotations
 
 import base64
+from html import escape
 from pathlib import Path
 
 from loguru import logger
@@ -114,7 +115,7 @@ def generate_html_report(
     contrast_rows = ""
     for c in details.get("contrast", []):
         contrast_rows += (
-            f"<tr><td>{c['element_id']}</td><td>{c['class_name']}</td>"
+            f"<tr><td>{c['element_id']}</td><td>{escape(str(c['class_name']))}</td>"
             f"<td>{c['contrast_ratio']}</td>"
             f"<td>{_pass_badge(c['passes_aa'])}</td>"
             f"<td>{_pass_badge(c['passes_aaa'])}</td></tr>\n"
@@ -124,7 +125,7 @@ def generate_html_report(
     touch_rows = ""
     for t in details.get("touch_targets", []):
         touch_rows += (
-            f"<tr><td>{t['element_id']}</td><td>{t['class_name']}</td>"
+            f"<tr><td>{t['element_id']}</td><td>{escape(str(t['class_name']))}</td>"
             f"<td>{t['width']}×{t['height']}</td>"
             f"<td>{_pass_badge(t['passes'])}</td></tr>\n"
         )
@@ -135,7 +136,7 @@ def generate_html_report(
         label_rows += (
             f"<tr><td>{l['element_id']}</td>"
             f"<td>{_pass_badge(l['has_label'])}</td>"
-            f"<td>{l['label_text'] or '—'}</td></tr>\n"
+            f"<td>{escape(str(l['label_text'] or '—'))}</td></tr>\n"
         )
 
     html = f"""\

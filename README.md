@@ -2,7 +2,7 @@
   
 # 👁️ GuiGazer
 
-**An on-device GUI automation agent using fine-tuned YOLOv8 visual grounding and multimodal LLM reasoning (NVIDIA NIM / GPT-4V).**
+**A browser automation prototype combining YOLOv8 visual grounding, Playwright and remote vision-model reasoning.**
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
@@ -13,9 +13,44 @@
 
 </div>
 
+## Verified scope — 10 November 2026
+
+The source implements a FastAPI/WebSocket dashboard, Playwright action loop,
+YOLO detector wrapper and screenshot-based accessibility heuristics. Vision
+reasoning calls NVIDIA/OpenAI services; the complete system is not on-device.
+Fine-tuned GUI weights and detection accuracy were not validated in this review.
+When those weights are absent, `detector/model.py` loads generic COCO YOLO weights
+but maps low class IDs to UI labels; that fallback does not establish GUI accuracy.
+
+Offline fixes cover escaped page-derived labels/classes in HTML reports,
+an existing JavaScript parse error, and dashboard handling of the server's
+`screenshot_b64` / `report_html` fields. Regression checks:
+
+```sh
+python -m unittest discover -s tests -v
+node --test tests/dashboard-contract.test.js
+node --check frontend/app.js
+```
+
+The three Python tests exercise report escaping and real agent/audit code with
+synthetic Detection objects and images. Provider/executor imports are stubbed;
+no browser is launched. The Node test checks the dashboard protocol with a minimal
+DOM/WebSocket stub. Detection objects are now converted to audit dictionaries
+with stable IDs, and step callbacks carry the annotated image for server encoding.
+These are offline contract checks, not an end-to-end browser/model success claim.
+The visual checks remain heuristics; their score is not a WCAG certification.
+
+![Source review flow diagram, not a runtime screenshot](docs/review-flow.svg)
+
+The diagram is source-derived. Existing screenshots above/below are inherited
+project assets, not new verification evidence. No weights, training dataset or
+large model was downloaded. To validate the live path, provide known GUI-trained weights, then run against
+an owned local fixture page before enabling a vision provider.
+
+
 ## 🤔 What It Does
 
-GuiGazer is an intelligent, on-device computer-use agent that automates tasks on websites and native applications. It "gazes" at your screen, detects every interactive UI element, and reasons about what to click or type next.
+GuiGazer captures browser pages through Playwright, attempts to detect interactive UI elements, and asks a remote vision model what to click or type next.
 
 By combining **Computer Vision (YOLOv8)** for precise UI element detection with the reasoning capabilities of **Vision Language Models (GPT-4V / NVIDIA NIM)**, it parses unstructured interfaces into actionable steps. 
 
@@ -31,16 +66,16 @@ GuiGazer uses a hybrid perception and reasoning pipeline:
 
 ```mermaid
 graph TD
-    A[Screen Capture<br/>Playwright / mss] -->|screenshot| B[YOLOv8 Detector<br/>Fine-tuned on RICO]
+    A[Screen Capture<br/>Playwright / mss] -->|screenshot| B[YOLOv8 Detector<br/>Configured GUI checkpoint]
     B -->|bounding boxes + classes| C[Set-of-Mark Annotator<br/>Overlay numbered labels]
     C -->|annotated screenshot| D[Vision LLM<br/>NVIDIA NIM / GPT-4V]
-    D -->|action plan: click element 5| E[Action Controller<br/>Playwright / pyautogui]
+    D -->|action plan: click element 5| E[Action Controller<br/>Playwright]
     E -->|executes action| A
     B -->|element hierarchy| F[Accessibility Auditor<br/>WCAG 2.1 Checks]
 ```
 
 1. **Capture:** Playwright takes a full-page screenshot of the target application.
-2. **Detect:** YOLOv8 (fine-tuned on the RICO dataset) identifies 12 distinct classes of UI elements (buttons, inputs, dropdowns, etc.).
+2. **Detect:** YOLOv8 with a configured GUI-trained checkpoint identifies 12 distinct classes of UI elements (buttons, inputs, dropdowns, etc.).
 3. **Annotate:** The system draws numbered Set-of-Mark (SoM) bounding boxes over the image so the LLM doesn't have to guess coordinates.
 4. **Reason:** The Vision LLM receives the annotated image and user prompt, and decides which numbered element ID to interact with.
 5. **Act:** The controller translates the element ID back to `(x, y)` coordinates and executes the click/type action.
