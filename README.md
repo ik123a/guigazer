@@ -9,7 +9,7 @@
 [![YOLOv8](https://img.shields.io/badge/YOLO-v8-FF9900.svg)](https://ultralytics.com)
 [![Playwright](https://img.shields.io/badge/Playwright-1.44-2EAD33.svg?logo=playwright)](https://playwright.dev)
 
-![GuiGazer Dashboard](dashboard_screenshot.png)
+![Local disconnected dashboard layout](docs/ui-disconnected.png)
 
 </div>
 
@@ -40,10 +40,21 @@ with stable IDs, and step callbacks carry the annotated image for server encodin
 These are offline contract checks, not an end-to-end browser/model success claim.
 The visual checks remain heuristics; their score is not a WCAG certification.
 
+### Local UI check
+
+![Disconnected dashboard on mobile](docs/ui-disconnected-mobile.png)
+
+The desktop image above and mobile image here are actual local HTML/CSS/JS
+renders in isolated Edge at 1280×900 and 390×844. WebSocket, model and executor
+boundaries were disabled. They show the disconnected state, not a completed
+agent task. Keyboard focus, 44px actions, mobile viewer sizing and horizontal
+bounds passed the offline browser checks. External font/script tags were removed
+from the dashboard; no third-party asset is needed for this empty state.
+
 ![Source review flow diagram, not a runtime screenshot](docs/review-flow.svg)
 
-The diagram is source-derived. Existing screenshots above/below are inherited
-project assets, not new verification evidence. No weights, training dataset or
+The diagram is source-derived. `screenshots/audit.png` is an inherited
+project asset, not new verification evidence. No weights, training dataset or
 large model was downloaded. To validate the live path, provide known GUI-trained weights, then run against
 an owned local fixture page before enabling a vision provider.
 
