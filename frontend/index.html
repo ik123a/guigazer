@@ -4,9 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GuiGazer — AI GUI Agent</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
@@ -54,7 +51,7 @@
       </button>
 
       <!-- Status indicator -->
-      <div class="status-wrap" id="status-wrap">
+      <div class="status-wrap" id="status-wrap" role="status" aria-live="polite">
         <span class="status-dot idle" id="status-dot"></span>
         <span class="status-text" id="status-text">Idle</span>
       </div>
@@ -100,7 +97,7 @@
           <svg class="section-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 10a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 10Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"/></svg>
           Action Log
         </h2>
-        <button class="clear-btn" id="clear-log" title="Clear log">
+        <button class="clear-btn" id="clear-log" title="Clear log" aria-label="Clear action log">
           <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443a41 41 0 0 0-1.783.18A.75.75 0 0 0 4.4 5.86l.3 9.066A2.75 2.75 0 0 0 7.446 17.5h5.108a2.75 2.75 0 0 0 2.746-2.574l.3-9.066a.75.75 0 0 0 .183-1.487A41 41 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c-1.257 0-2.5.05-3.728.148l-.002.002.3 9.066c.053 1.59 1.37 2.784 2.876 2.784h1.108c1.507 0 2.823-1.194 2.876-2.784l.3-9.066A38 38 0 0 0 10 4Zm-1.25-1.5a1.25 1.25 0 0 0-1.25 1.25v.2A40 40 0 0 1 10 3.75c.844 0 1.68.032 2.5.095V3.75a1.25 1.25 0 0 0-1.25-1.25h-2.5Z" clip-rule="evenodd"/></svg>
         </button>
       </div>

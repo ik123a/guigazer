@@ -181,6 +181,7 @@ class GuiGazerAgent:
                     "reasoning": action.reasoning,
                     "detections_count": len(detections),
                     "screenshot_path": screenshot_path,
+                    "screenshot": annotated,
                     "elapsed_seconds": round(elapsed, 3),
                     "completed": completed,
                 }
@@ -248,7 +249,10 @@ class GuiGazerAgent:
         # Run full WCAG audit
         try:
             from audit.accessibility import run_full_audit
-            audit_result = run_full_audit(screenshot, detections)
+            audit_detections = [
+                {**d.to_dict(), "id": d.element_id} for d in detections
+            ]
+            audit_result = run_full_audit(screenshot, audit_detections)
         except ImportError:
             logger.warning("Audit module not available, returning basic results")
             audit_result = {

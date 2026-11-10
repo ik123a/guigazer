@@ -77,8 +77,8 @@ function setHTML(element, htmlString) {
         setStatus("running", `Running — step ${stepNum}`);
 
         // Update screenshot
-        if (data.screenshot) {
-          screenshotImg.src = `data:image/png;base64,${data.screenshot}`;
+        if (data.screenshot_b64) {
+          screenshotImg.src = `data:image/png;base64,${data.screenshot_b64}`;
           screenshotImg.classList.remove("hidden");
           placeholder.classList.add("hidden");
         }
@@ -103,9 +103,9 @@ function setHTML(element, htmlString) {
         break;
 
       case "audit_result":
-        if (data.html) {
+        if (data.report_html) {
           const win = window.open("", "_blank");
-          if (win) { win.document.write(data.html); win.document.close(); }
+          if (win) { win.document.write(data.report_html); win.document.close(); }
         }
         if (data.url) { window.open(data.url, "_blank"); }
         setStatus("complete", "Audit done");
@@ -188,8 +188,8 @@ function setHTML(element, htmlString) {
           <span class="action-badge ${badgeClass}">${escHtml(action)}</span>
           <span class="action-element">${escHtml(element)}</span>
         </div>
-        ${reason ? `);<div class="action-reason">${escHtml(reason)}</div>` : ""}
-      </div>`;
+        ${reason ? `<div class="action-reason">${escHtml(reason)}</div>` : ""}
+      </div>`);
     actionLog.appendChild(entry);
     scrollLog();
   }

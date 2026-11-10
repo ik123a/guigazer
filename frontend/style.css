@@ -18,7 +18,7 @@
 
   --text:        #e2e8f0;
   --text-sec:    #94a3b8;
-  --text-muted:  #64748b;
+  --text-muted:  #a0aec0;
 
   --green:       #22c55e;
   --blue:        #3b82f6;
@@ -131,6 +131,7 @@ body::before {
   margin-bottom: .4rem;
 }
 .input {
+  min-height: 44px;
   width: 100%;
   padding: .65rem .85rem;
   background: var(--bg-glass);
@@ -152,6 +153,7 @@ body::before {
 
 /* Buttons */
 .btn {
+  min-height: 44px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -340,6 +342,13 @@ body::before {
   transition: color var(--transition), background var(--transition);
 }
 .clear-btn:hover { color: var(--red); background: rgba(239,68,68,.1); }
+.label, .logo-sub, .sidebar-footer { font-size: .8rem; }
+.placeholder-hint { font-size: .85rem; }
+.clear-btn { min-width: 44px; min-height: 44px; }
+.input:focus-visible, .btn:focus-visible, .clear-btn:focus-visible {
+  outline: 2px solid #ddd6fe;
+  outline-offset: 3px;
+}
 
 /* Action entry */
 .action-entry {
@@ -450,11 +459,17 @@ body::before {
   .sidebar-inner { padding: 1rem; }
   body { flex-direction: column; }
   .main { margin-left: 0; }
-  .viewer-card { min-height: 240px; }
+  .main { min-height: 0; }
+  .viewer-card { flex: none; min-height: 280px; }
+  .viewer { min-height: 220px; }
   .log-card { max-height: 260px; }
 }
 
 @media (max-width: 500px) {
   .logo-title { font-size: 1.1rem; }
   .main { padding: .75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
